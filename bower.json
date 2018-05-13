@@ -1,0 +1,12 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "backbone.marionette": "marionette#1.7.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
+  }
+}
