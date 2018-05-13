@@ -22,29 +22,35 @@
     
   </head>
   <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    
-
-    
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
+   
+    <script type="text/template"  id="todo-view" >
+      <p>Task: <%= task %>
     </script>
-    -->
+
+    <script type="text/template"  id="todo-form" >
+      <h3>Add Todo </h3>
+      <p>Task: <input type="text" id="task"/> </p>      
+      <p><button>Add</button> </p>      
+    </script>
+
+    <script type="text/template"  id="todos-view" >
+      <h2>Todo List</h2>
+    </script>
+    <script type="text/template"  id="no-todos-view" >
+      <h2>No Todos </h2>
+    </script>
+
+    <div id="form"></div>
+    <div id="list"> </div>
+  
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/underscore/underscore.js"></script>
     <script src="/bower_components/backbone/backbone.js"></script>
     <script src="/bower_components/backbone.babysitter/lib/backbone.babysitter.js"></script>
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    
     <script src="/bower_components/backbone.marionette/lib/backbone.marionette.js"></script>
     <script src="/bower_components/backbone.marionette/lib/core/amd/backbone.marionette.js"></script>
     <!-- endbower -->
