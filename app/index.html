@@ -22,7 +22,8 @@
     
   </head>
   <body>
-   
+    <script src="scripts/vendor/LAB.js"></script>
+    
     <script type="text/template"  id="todo-view" >
       <p>Task: <%= task %>
     </script>
@@ -45,19 +46,30 @@
   
 
     <!-- build:js scripts/vendor.js -->
+    
+    <script>
+      $LAB
+      .script("/bower_components/jquery/dist/jquery.js").wait()
+      .script("/bower_components/underscore/underscore.js")
+      .script("/bower_components/backbone/backbone.js").wait()
+      .script("/bower_components/backbone.babysitter/lib/backbone.babysitter.js").wait()
+      .script("/bower_components/backbone.marionette/lib/backbone.marionette.js").wait()
+      .script("/bower_components/backbone.marionette/lib/core/amd/backbone.marionette.js").wait()
+      .script("scripts/main.js");
+
+    </script>
     <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/underscore/underscore.js"></script>
     <script src="/bower_components/backbone/backbone.js"></script>
     <script src="/bower_components/backbone.babysitter/lib/backbone.babysitter.js"></script>
-    
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/backbone.marionette/lib/backbone.marionette.js"></script>
     <script src="/bower_components/backbone.marionette/lib/core/amd/backbone.marionette.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     
     <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
+    <!-- <script src="scripts/main.js"></script> -->
     <!-- endbuild -->
   </body>
 </html>
