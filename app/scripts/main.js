@@ -73,6 +73,13 @@
     var TodoApp = new Backbone.Marionette.Application();
 
     var Todo = Backbone.Model.extend({
+        default: {
+            task: '',
+            description: '',
+            complete: false,
+            endDate: '',
+            completionData: ''
+        },
         sync: createLocalStorageSyncFn('todos'),
         url : 'todos'
     });
@@ -85,10 +92,6 @@
 
     var TodoView = Backbone.Marionette.ItemView.extend({
         template: '#todo-view'
-    });
-
-    var NoTodosView = Backbone.Marionette.ItemView.extend({
-        template: '#no-todos-view'
     });
 
     var TodosView = Backbone.Marionette.CollectionView.extend({
@@ -105,14 +108,29 @@
     var FormView = Backbone.Marionette.ItemView.extend({
         template: '#todo-form',
         events:{
-            'click button': 'createTodo'
+            'click button': 'createTodo',
+            'keydown @ui#task' : 'createTodoKeypress'
+
         },
+
         ui: {
             task : '#task'
         },
+
+        createTodoKeypress: function (e) {
+			var ENTER_KEY = 13;
+			
+			if (e.which === ENTER_KEY) {
+				this.createTodo();
+				return;
+			}			
+        },
+        
         createTodo: function(){
+            var val = this.ui.task.val().trim();
+            if(val)
             this.collection.create({
-                task: this.ui.task.val()
+                task: val
             });
            
             this.ui.task.val('');
