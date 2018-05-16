@@ -21,6 +21,8 @@
 
     var db = {};
     db.todos = [];    
+    db.users = []; 
+    db.users.push({id: 'vishal'});
   
     /**
      * This will create a fuction to override the default backbone sync function
@@ -70,8 +72,6 @@
             };
     }
 
-    var TodoApp = new Backbone.Marionette.Application();
-
     var Todo = Backbone.Model.extend({
         default: {
             task: '',
@@ -118,41 +118,123 @@
         },
 
         createTodoKeypress: function (e) {
-			var ENTER_KEY = 13;
-			
-			if (e.which === ENTER_KEY) {
-				this.createTodo();
-				return;
-			}			
+            var ENTER_KEY = 13;
+
+            if (e.which === ENTER_KEY) {
+                this.createTodo();
+                return;
+            }			
         },
         
         createTodo: function(){
             var val = this.ui.task.val().trim();
             if(val)
-            this.collection.create({
-                task: val
-            });
+                this.collection.create({
+                    task: val
+                });
            
             this.ui.task.val('');
         }
     });
+    var User = Backbone.Model.extend({
+        // idAttribute: "username",
+        default: {
+            id: ''
+        },
+        sync: createLocalStorageSyncFn('users'),
+        url : 'users'
+    });
+
+
+    var LoginView = Backbone.Marionette.ItemView.extend({
+        template: '#login-form',
+        events:{
+            'click button': 'login',
+            'keydown @ui#id' : 'login'
+        },
+
+        ui: {
+            username : '#username'
+        },
+
+        createTodoKeypress: function (e) {
+            var ENTER_KEY = 13;
+
+            if (e.which === ENTER_KEY) {
+                this.login();
+                return;
+            }			
+        },
+        
+        login: function(){
+            var val = this.ui.username.val().trim();
+            if(val){
+                var user = new User({id: val});
+                user.fetch({
+                    success:function(){
+                        // TODO use event!
+                        TodoApp.user = user;
+                        TodoApp.router.navigate('home', {trigger:true});
+                        // remove region!
+                        
+
+
+                    }, error:function(){
+                        alert("Incorrect Login!!");
+                    }});
+
+            }
+                
+        }
+    });
+
+    var TodoApp = new Backbone.Marionette.Application();
 
     TodoApp.addRegions({
         form: '#form',
-        list: '#list'
+        list: '#list',
+        login: '#login'
     });
 
     TodoApp.addInitializer(function(){
         TodoApp.todos = new Todos();
-        TodoApp.form.show(new FormView({collection: TodoApp.todos}));
-        TodoApp.list.show(new TodosView({collection: TodoApp.todos}));
+        TodoApp.router = new Router();
+
+        // TodoApp.form.show(new FormView({collection: TodoApp.todos}));
+        // TodoApp.list.show(new TodosView({collection: TodoApp.todos}));
         
     });
 
     TodoApp.on('start', function(options) {
-        Backbone.history.start({pushState: false}); 
-      });
+        Backbone.history.start(
+            // {pushState: false}
+        ); 
+    });
 
+    var Router = Marionette.AppRouter.extend({
+        controller: {
+            login: function(){
+                TodoApp.login.show(new LoginView({mode: TodoApp.login}));
+                console.log("login");
+            },
+            home: function(){
+                console.log("home");
+                TodoApp.form.show(new FormView({collection: TodoApp.todos}));
+                TodoApp.list.show(new TodosView({collection: TodoApp.todos}));
 
+            },
+            editTodo: function(){
+                console.log("editTodo");
+
+            }
+        },
+        appRoutes: {
+            "": "login",
+            "home": "home",
+            "todo/:id": "editTodo"
+        }
+    });
+
+    
     TodoApp.start();
 })();

@@ -28,6 +28,12 @@
       <p>Task: <%= task %>
     </script>
 
+    <script type="text/template"  id="login-form" >
+      <h3>Login </h3>
+      <p>Username: <input type="text" id="username"/> </p>      
+      <p><button>Login</button> </p>  
+    </script>
+
     <script type="text/template"  id="todo-form" >
       <h3>Add Todo </h3>
       <p>Task: <input type="text" id="task"/> </p>      
@@ -41,6 +47,7 @@
       <h2>No Todos </h2>
     </script>
 
+    <div id="login"></div>
     <div id="form"></div>
     <div id="list"> </div>
   
@@ -50,7 +57,7 @@
     <script>
       $LAB
       .script("/bower_components/jquery/dist/jquery.js").wait()
-      .script("/bower_components/underscore/underscore.js")
+      .script("/bower_components/underscore/underscore.js").wait()
       .script("/bower_components/backbone/backbone.js").wait()
       .script("/bower_components/backbone.babysitter/lib/backbone.babysitter.js").wait()
       .script("/bower_components/backbone.marionette/lib/backbone.marionette.js").wait()
